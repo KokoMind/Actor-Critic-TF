@@ -11,7 +11,8 @@ class Actor:
         self._action = tf.placeholder(dtype=tf.int32, shape=[1], name='action')
         self._target = tf.placeholder(dtype=tf.float32, shape=[1], name='target')
 
-        self._output_layer = tf.layers.dense(inputs=tf.expand_dims(self._state, 0), units=num_actions, kernel_initializer=tf.zeros_initializer())
+        self._hidden_layer = tf.layers.dense(inputs=tf.expand_dims(self._state, 0), units=32, kernel_initializer=tf.zeros_initializer())
+        self._output_layer = tf.layers.dense(inputs=self._hidden_layer, units=num_actions, kernel_initializer=tf.zeros_initializer())
         self._action_probs = tf.squeeze(tf.nn.softmax(self._output_layer))
         self._picked_action_prob = tf.gather(self._action_probs, self._action)
 
@@ -43,7 +44,8 @@ class Critic:
             self._state = tf.placeholder(dtype=tf.float32, shape=self._observation_shape, name='state')
             self._target = tf.placeholder(dtype=tf.float32, shape=[1], name='target')
 
-            self._out = tf.layers.dense(inputs=tf.expand_dims(self._state, 0), units=1, kernel_initializer=tf.zeros_initializer())
+            self._hidden_layer = tf.layers.dense(inputs=tf.expand_dims(self._state, 0), units=32, kernel_initializer=tf.zeros_initializer())
+            self._out = tf.layers.dense(inputs=self._hidden_layer, units=1, kernel_initializer=tf.zeros_initializer())
 
             self._value_estimate = tf.squeeze(self._out)
             self._loss = tf.squared_difference(self._out, self._target)
