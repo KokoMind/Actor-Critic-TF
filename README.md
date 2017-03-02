@@ -1,2 +1,2 @@
 # Actor-Critic-TF
-implementing Actor Critic algorithm using tensorflow framework 
+Implementing the Actor Critic algorithm using tensorflow. 
