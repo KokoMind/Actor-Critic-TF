@@ -10,8 +10,8 @@ class Actor:
         self._sess = sess
 
         self._state = tf.placeholder(dtype=tf.float32, shape=observation_shape, name='state')
-        self._action = tf.placeholder(dtype=tf.int32, shape=[1], name='action')
-        self._target = tf.placeholder(dtype=tf.float32, shape=[1], name='target')
+        self._action = tf.placeholder(dtype=tf.int32, name='action')
+        self._target = tf.placeholder(dtype=tf.float32, name='target')
 
         self._hidden_layer = tf.layers.dense(inputs=tf.expand_dims(self._state, 0), units=32, kernel_initializer=tf.zeros_initializer())
         self._output_layer = tf.layers.dense(inputs=self._hidden_layer, units=num_actions, kernel_initializer=tf.zeros_initializer())
@@ -27,8 +27,7 @@ class Actor:
         return self._sess.run(self._action_probs, {self._state: s})
 
     def update(self, s, a, target):
-        _, loss = self._sess.run(self._train_op, {self._state: s, self._action: a, self._target: target})
-        return loss
+        self._sess.run(self._train_op, {self._state: s, self._action: a, self._target: target})
 
 
 class Critic:
@@ -44,7 +43,7 @@ class Critic:
     def _build_model(self):
         with tf.variable_scope(self._name):
             self._state = tf.placeholder(dtype=tf.float32, shape=self._observation_shape, name='state')
-            self._target = tf.placeholder(dtype=tf.float32, shape=[1], name='target')
+            self._target = tf.placeholder(dtype=tf.float32, name='target')
 
             self._hidden_layer = tf.layers.dense(inputs=tf.expand_dims(self._state, 0), units=32, kernel_initializer=tf.zeros_initializer())
             self._out = tf.layers.dense(inputs=self._hidden_layer, units=1, kernel_initializer=tf.zeros_initializer())
