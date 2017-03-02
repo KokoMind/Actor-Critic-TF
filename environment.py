@@ -22,7 +22,7 @@ class Environment(object):
 
         if evaluation:
             self._env = wrappers.Monitor(self._env, self._monitor_path, resume=True,
-                                          video_callable=lambda count: count % config.record_video_every == 0)
+                                         video_callable=lambda count: count % config.record_video_every == 0)
 
         self._init_state_processor(config.state_processor_params)
 
@@ -66,7 +66,7 @@ class Environment(object):
             if 'resize_shape' in state_processor_params:
                 h, w = state_processor_params['resize_shape']
                 self._state = tf.image.resize_images(self._state, [h, w],
-                                                      method=tf.image.ResizeMethod.NEAREST_NEIGHBOR)
+                                                     method=tf.image.ResizeMethod.NEAREST_NEIGHBOR)
             if 'frames_num' in state_processor_params:
                 self._frames_num = state_processor_params['frames_num']
             else:
@@ -74,6 +74,37 @@ class Environment(object):
 
     def _state_processor(self, state):
         return self.sess.run(self._state, feed_dict={self._input_state: state})
+
+    @property
+    def n_actions(self):
+        return self._env.action_space.n
+
+    @property
+    def valid_actions(self):
+        return self._valid_actions
+
+
+class SimpleEnvironment:
+    def __init__(self, config):
+        self._env = gym.envs.make(config.env_name)
+        self._valid_actions = [x for x in range(self.n_actions)]
+        self._monitor_path = os.path.join(config.experiment_dir, "monitor/")
+        self._env = wrappers.Monitor(self._env, self._monitor_path, resume=True,
+                                     video_callable=lambda count: count % config.record_video_every == 0)
+
+    def reset(self):
+        state = self._env.reset()
+        return state
+
+    def step(self, action):
+        next_state, reward, done, _ = self._env.step(action)
+        return next_state, reward, done
+
+    def sample_action(self):
+        return np.random.choice(self._env.action_space.n)
+
+    def submit(self, api_key):
+        gym.upload(self._monitor_path, api_key=api_key)
 
     @property
     def n_actions(self):
