@@ -1,0 +1,2 @@
+class Configurations:
+    learning_rate = 0.01
