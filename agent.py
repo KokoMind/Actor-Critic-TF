@@ -13,7 +13,6 @@ class Agent:
         self.environment = environment
 
         self.init_dirs()
-
         self.init_cur_epsiode()
         self.init_global_step()
         self.init_summaries()
@@ -114,7 +113,7 @@ class Agent:
                 # Update the Global step
                 self.global_step_assign_op.eval(session=self.sess, feed_dict={self.global_step_input: self.global_step_tensor.eval(self.sess) + 1})
 
-                # Take an action ..Then observe and save
+                # Take an action
                 action = self.take_action(state)
                 next_state, reward, done = self.observe(self.environment.valid_actions[action])
 

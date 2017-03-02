@@ -2,7 +2,7 @@
 
 
 class EnvConfig(object):
-    env_name = 'Breakout-v0'
+    env_name = 'CartPole-v0'
     record_video_every = 5
 
 
