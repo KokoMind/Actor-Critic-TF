@@ -1,4 +1,6 @@
 import tensorflow as tf
+import numpy as np
+from config import get_config
 
 
 class Actor:
@@ -57,3 +59,28 @@ class Critic:
     def update(self, s, target):
         _, loss = self._sess.run([self._update_step, self._loss], feed_dict={self._state: s, self._target: target})
         return loss
+
+
+def test():
+    """Function to test the model Implementation"""
+    state = np.random.rand(4)
+    target = np.random.rand(1)
+    action = 1
+
+    tf.reset_default_graph()
+    sess = tf.Session()
+
+    config = get_config()
+
+    actor = Actor(sess, 4, [4], config)
+    critic = Critic(sess, [4], config)
+
+    actor.predict(state)
+    critic.predict(state)
+    actor.update(state, action, target)
+    critic.update(state, target)
+    pass
+
+
+if __name__ == "__main__":
+    test()
