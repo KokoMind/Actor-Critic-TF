@@ -77,6 +77,8 @@ def test():
     actor = Actor(sess, 4, [4], config)
     critic = Critic(sess, [4], config)
 
+    sess.run(tf.group(tf.global_variables_initializer(), tf.local_variables_initializer()))
+
     actor.predict(state)
     critic.predict(state)
     actor.update(state, action, target)
