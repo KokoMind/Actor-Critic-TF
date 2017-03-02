@@ -13,7 +13,7 @@ class AgentConfig(object):
 
 
 class ModelConfig(object):
-    name = "DQN_Dragon"
+    critic_name = "DQN_Dragon"
     learning_rate = 0.00025
 
 
