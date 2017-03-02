@@ -13,8 +13,8 @@ class AgentConfig(object):
 
 
 class ModelConfig(object):
-    critic_name = "DQN_Dragon"
-    learning_rate = 0.00025
+    critic_name = "Critic_Network"
+    learning_rate = 0.01
 
 
 class Experiment1(EnvConfig, AgentConfig, ModelConfig):
