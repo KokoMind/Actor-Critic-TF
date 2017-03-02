@@ -11,12 +11,24 @@ class BaseModel:
 class Actor(BaseModel):
     """The actor class"""
 
-    def __init__(self):
+    def __init__(self, sess, config):
+        self._sess = sess
+
+    def predict(self):
+        pass
+
+    def update(self):
         pass
 
 
 class Critic(BaseModel):
     """The critic class"""
 
-    def __init__(self):
+    def __init__(self, sess, config):
+        self._sess = sess
+
+    def predict(self):
+        pass
+
+    def update(self):
         pass
