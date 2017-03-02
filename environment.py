@@ -113,3 +113,7 @@ class SimpleEnvironment:
     @property
     def valid_actions(self):
         return self._valid_actions
+
+    @property
+    def state_shape(self):
+        return self._env.observation_space.shape
