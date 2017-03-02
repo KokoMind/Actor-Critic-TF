@@ -58,8 +58,7 @@ class Critic:
         return self._sess.run(self._value_estimate, feed_dict={self._state: s})
 
     def update(self, s, target):
-        _, loss = self._sess.run([self._update_step, self._loss], feed_dict={self._state: s, self._target: target})
-        return loss
+        self._sess.run(self._update_step, feed_dict={self._state: s, self._target: target})
 
 
 def test():
