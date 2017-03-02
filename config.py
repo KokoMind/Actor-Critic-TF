@@ -3,7 +3,7 @@
 
 class EnvConfig(object):
     env_name = 'CartPole-v0'
-    record_video_every = 5
+    record_video_every = 100
 
 
 class AgentConfig(object):
